@@ -96,7 +96,20 @@ Visit http://127.0.0.1:5000 in your browser.
 
 ## 📷 Screenshots
 
-Screenshots of the dashboard, equipment management page, and issue/return workflow will be added here.
+### Dashboard
+![LabTrack Dashboard](screenshots/dashboard.png)
+
+### Equipment Inventory
+![Equipment Inventory](screenshots/inventory.png)
+
+### Issue and Return Tracking
+![Issue and Return](screenshots/issue%26return.png)
+
+### Maintenance Management
+![Maintenance Management](screenshots/maintenance.png)
+
+### People and Laboratory Management
+![People and Labs](screenshots/people%26labs.png)
 
 ## 🧪 Testing
 
