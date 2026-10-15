@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Error | LabTrack{% endblock %}
+{% block heading %}Something went wrong{% endblock %}
+{% block content %}
+<section class="panel">
+  <h2>The request could not be completed.</h2>
+  <p>Look at the CMD window running Flask for the exact error message.</p>
+  <a class="button" href="{{ url_for('dashboard') }}">Return to dashboard</a>
+</section>
+{% endblock %}

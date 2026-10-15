@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Maintenance | LabTrack{% endblock %}
+{% block heading %}Maintenance log{% endblock %}
+{% block content %}
+<section class="panel">
+  <h2>Add maintenance record</h2>
+  <form method="post" action="{{ url_for('add_maintenance') }}" class="form-grid">
+    <label>Equipment *
+      <select name="equipment_id" required>
+        <option value="">Choose equipment</option>
+        {% for e in equipment %}<option value="{{ e.equipment_id }}">{{ e.name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Date *<input type="date" name="date" required></label>
+    <label>Type *<input name="type" required placeholder="Repair, inspection, calibration"></label>
+    <label>Cost (₹)<input type="number" name="cost" min="0" step="0.01" value="0"></label>
+    <label>Description<input name="description"></label>
+    <label>Status<select name="status"><option>Pending</option><option>In Progress</option><option>Completed</option></select></label>
+    <button class="button">Save maintenance</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Maintenance history</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Equipment</th><th>Date</th><th>Type</th><th>Description</th><th>Cost</th><th>Status</th><th>Update</th></tr></thead>
+      <tbody>
+      {% for m in maintenance %}
+        <tr>
+          <td>{{ m.equipment_name }}</td><td>{{ m.date }}</td><td>{{ m.type or '—' }}</td>
+          <td>{{ m.description or '—' }}</td><td>₹{{ m.cost }}</td>
+          <td>{{ m.status }}</td>
+          <td>
+            <form method="post" action="{{ url_for('update_maintenance', maintenance_id=m.maintenance_id) }}">
+              <select name="status">
+                <option {% if m.status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option {% if m.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                <option {% if m.status == 'Completed' %}selected{% endif %}>Completed</option>
+              </select>
+              <button class="button">Update</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7">No maintenance records.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

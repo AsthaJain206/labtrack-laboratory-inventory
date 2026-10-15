@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | LabTrack{% endblock %}
+{% block heading %}Overview{% endblock %}
+{% block content %}
+<section class="welcome">
+  <h2>Your laboratory, at a glance.</h2>
+  <p>Manage equipment, issues, returns, and maintenance.</p>
+</section>
+
+<section class="stats">
+  <article><p>Total Equipment</p><strong>{{ stats.equipment }}</strong></article>
+  <article><p>Laboratories</p><strong>{{ stats.labs }}</strong></article>
+  <article><p>Currently Issued</p><strong>{{ stats.issued }}</strong></article>
+  <article><p>Pending Maintenance</p><strong>{{ stats.maintenance }}</strong></article>
+</section>
+
+<section class="panel">
+  <h2>Recent issue activity</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Student</th><th>Equipment</th><th>Issue date</th><th>Return date</th><th>Status</th></tr></thead>
+      <tbody>
+      {% for item in recent %}
+        <tr>
+          <td>{{ item.student_name }}</td>
+          <td>{{ item.equipment_name }}</td>
+          <td>{{ item.issue_date }}</td>
+          <td>{{ item.return_date or '—' }}</td>
+          <td>{{ item.status }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5">No issue records found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

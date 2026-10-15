@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Issue & Return | LabTrack{% endblock %}
+{% block heading %}Issue & Return{% endblock %}
+{% block content %}
+<section class="panel">
+  <h2>Issue equipment</h2>
+  <form method="post" action="{{ url_for('issue_equipment') }}" class="form-grid">
+    <label>Student *
+      <select name="student_id" required>
+        <option value="">Choose student</option>
+        {% for s in students %}<option value="{{ s.student_id }}">{{ s.name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Equipment *
+      <select name="equipment_id" required>
+        <option value="">Choose equipment</option>
+        {% for e in available %}<option value="{{ e.equipment_id }}">{{ e.name }} — {{ e.serial_no or 'No serial' }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Approving faculty *
+      <select name="faculty_id" required>
+        <option value="">Choose faculty</option>
+        {% for f in faculty %}<option value="{{ f.faculty_id }}">{{ f.name }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Issue date *<input type="date" name="issue_date" required></label>
+    <label>Remarks<input name="remarks"></label>
+    <button class="button">Record issue</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Transaction history</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Student</th><th>Equipment</th><th>Faculty</th><th>Issued</th><th>Returned</th><th>Status / Action</th></tr></thead>
+      <tbody>
+      {% for item in issues %}
+        <tr>
+          <td>{{ item.student_name }}</td><td>{{ item.equipment_name }}</td>
+          <td>{{ item.faculty_name }}</td><td>{{ item.issue_date }}</td>
+          <td>{{ item.return_date or '—' }}</td>
+          <td>
+          {% if item.status == 'Issued' %}
+            <form method="post" action="{{ url_for('return_equipment', issue_id=item.issue_id) }}">
+              <input type="date" name="return_date" required>
+              <button class="button">Mark returned</button>
+            </form>
+          {% else %}Returned{% endif %}
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6">No issue records.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
